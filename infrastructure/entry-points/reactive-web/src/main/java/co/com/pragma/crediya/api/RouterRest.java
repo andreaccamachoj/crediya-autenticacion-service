@@ -33,8 +33,6 @@ public class RouterRest {
 
     @Bean
     @RouterOperations({
-
-            // ---------- POST /api/v1/usuarios ----------
             @RouterOperation(
                     path = "/api/v1/usuarios",
                     produces = MediaType.APPLICATION_JSON_VALUE,
@@ -48,7 +46,7 @@ public class RouterRest {
                             requestBody = @RequestBody(
                                     required = true,
                                     content = @Content(
-                                            schema = @Schema(implementation = CrearUsuarioDto.class), // o Usuario.class si no usas DTO
+                                            schema = @Schema(implementation = CrearUsuarioDto.class),
                                             examples = {
                                                     @ExampleObject(
                                                             name = "usuario_minimo",
@@ -68,16 +66,14 @@ public class RouterRest {
                             ),
                             responses = {
                                     @ApiResponse(
-                                            responseCode = "200", // usa 201 si cambias el handler a Created
+                                            responseCode = "200",
                                             description = "Usuario creado",
                                             content = @Content(
-                                                    schema = @Schema(implementation = Usuario.class) // o UsuarioResponse.class si devuelves DTO
+                                                    schema = @Schema(implementation = Usuario.class)
                                             )
                                     )}
                     )
             ),
-
-            // ---------- GET /api/v1/usuario/{documentoIdentidad} ----------
             @RouterOperation(
                     path = "/api/v1/usuario/{documentoIdentidad}",
                     produces = MediaType.APPLICATION_JSON_VALUE,
