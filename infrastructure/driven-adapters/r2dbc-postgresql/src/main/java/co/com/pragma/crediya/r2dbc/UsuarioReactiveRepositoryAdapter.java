@@ -40,7 +40,7 @@ public class UsuarioReactiveRepositoryAdapter extends ReactiveAdapterOperations<
     public Mono<Usuario> findByDocumentoIdentidad(String documentoIdentidad) {
         return repository.findByDocumentoIdentidad(documentoIdentidad)
                 .map(this::toEntity)
-                .switchIfEmpty(Mono.error(new BusinessException(BusinessExceptionMessage.APPLICANT_NOT_FOUND)));
+                .onErrorMap(ex -> new BusinessException(BusinessExceptionMessage.APPLICANT_NOT_FOUND));
     }
 
 }

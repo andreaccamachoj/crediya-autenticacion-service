@@ -81,7 +81,8 @@ public class UsuarioUseCase {
 
 
     public Mono<Usuario> existsByDocumentoIdentidad(String documentoIdentidad) {
-        return usuariosRepository.findByDocumentoIdentidad(documentoIdentidad);
+        return usuariosRepository.findByDocumentoIdentidad(documentoIdentidad)
+                .switchIfEmpty(Mono.error(new BusinessException(BusinessExceptionMessage.APPLICANT_NOT_FOUND)));
     }
 
     private static boolean isBlank(String s) {

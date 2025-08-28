@@ -4,12 +4,10 @@ import co.com.pragma.crediya.api.mapper.UsuarioDtoMapper;
 import co.com.pragma.crediya.model.usuario.Usuario;
 import co.com.pragma.crediya.usecase.usuario.UsuarioUseCase;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Component;
 import org.springframework.web.reactive.function.server.ServerRequest;
 import org.springframework.web.reactive.function.server.ServerResponse;
-import org.springframework.web.server.ResponseStatusException;
 import reactor.core.publisher.Mono;
 
 @Component
@@ -31,10 +29,9 @@ public class Handler {
         String documento = req.pathVariable("documentoIdentidad");
         return usuarioUseCase.existsByDocumentoIdentidad(documento)
                 .map(usuarioDtoMapper::toResponse)
-                .switchIfEmpty(Mono.error(new ResponseStatusException(
-                        HttpStatus.NOT_FOUND, "Usuario no encontrado")))
                 .flatMap(resp -> ServerResponse.ok()
                         .contentType(MediaType.APPLICATION_JSON)
                         .bodyValue(resp));
     }
+
 }
