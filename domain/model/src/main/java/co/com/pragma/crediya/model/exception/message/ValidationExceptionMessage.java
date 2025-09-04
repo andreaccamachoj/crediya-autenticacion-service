@@ -45,6 +45,10 @@ public enum ValidationExceptionMessage {
     ROL_REQUIRED(
       "VAL0010", "Rol is required", "400",
               "La 'fecha_nacimiento' debe ser una fecha pasada."
+    ),
+    PASSWORD_REQUIRED(
+            "VAL0010", "Password is required", "400",
+            "La clave es requerida."
     );
 
     private final String code;

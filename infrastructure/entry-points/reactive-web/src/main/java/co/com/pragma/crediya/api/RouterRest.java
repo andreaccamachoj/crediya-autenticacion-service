@@ -11,6 +11,7 @@ import io.swagger.v3.oas.annotations.media.ExampleObject;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.parameters.RequestBody;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import lombok.RequiredArgsConstructor;
 import org.springdoc.core.annotations.RouterOperation;
 import org.springdoc.core.annotations.RouterOperations;
@@ -69,9 +70,34 @@ public class RouterRest {
                                             responseCode = "200",
                                             description = "Usuario creado",
                                             content = @Content(
-                                                    schema = @Schema(implementation = Usuario.class)
+                                                    schema = @Schema(implementation = Usuario.class),
+                                                    examples = {
+                                                            @ExampleObject(
+                                                                    name = "usuario_creado",
+                                                                    value = """
+                                        {
+                                          "id": 1,
+                                          "nombres": "Ana",
+                                          "apellidos": "García",
+                                          "email": "ana@example.com",
+                                          "salarioBase": 4500000,
+                                          "idRol": 2,
+                                          "documentoIdentidad": "1020304050"
+                                        }"""
+                                                            )
+                                                    }
                                             )
-                                    )}
+                                    ),
+                                    @ApiResponse(
+                                            responseCode = "400",
+                                            description = "Error de validación en los datos"
+                                    ),
+                                    @ApiResponse(
+                                            responseCode = "409",
+                                            description = "El correo electrónico ya está registrado"
+                                    )
+                            },
+                            security = { @SecurityRequirement(name = "bearerAuth") }
                     )
             ),
             @RouterOperation(
@@ -83,6 +109,7 @@ public class RouterRest {
                     operation = @Operation(
                             operationId = "getUsuarioPorDocumento",
                             summary = "Obtener usuario por documento de identidad",
+                            description = "Consulta un usuario existente a partir de su documento de identidad.",
                             parameters = {
                                     @Parameter(
                                             name = "documentoIdentidad",
@@ -91,13 +118,64 @@ public class RouterRest {
                                             description = "Documento de identidad del usuario",
                                             schema = @Schema(type = "string", example = "1020304050")
                                     )
-                            }
+                            },
+                            responses = {
+                                    @ApiResponse(
+                                            responseCode = "200",
+                                            description = "Usuario encontrado",
+                                            content = @Content(schema = @Schema(implementation = Usuario.class))
+                                    ),
+                                    @ApiResponse(
+                                            responseCode = "404",
+                                            description = "Usuario no encontrado"
+                                    )
+                            },
+                            security = { @SecurityRequirement(name = "bearerAuth") }
+                    )
+            ),
+            @RouterOperation(
+                    path = "/api/v1/usuarios/list-by-ids",
+                    produces = MediaType.APPLICATION_JSON_VALUE,
+                    method = org.springframework.web.bind.annotation.RequestMethod.POST,
+                    beanClass = Handler.class,
+                    beanMethod = "findByIds",
+                    operation = @Operation(
+                            operationId = "findUsuariosByIds",
+                            summary = "Obtener usuarios por lista de IDs",
+                            description = "Recibe una lista de identificadores y devuelve los usuarios correspondientes.",
+                            requestBody = @RequestBody(
+                                    required = true,
+                                    content = @Content(
+                                            schema = @Schema(implementation = java.util.List.class),
+                                            examples = {
+                                                    @ExampleObject(
+                                                            name = "lista_ids",
+                                                            value = "[1, 2, 3]"
+                                                    )
+                                            }
+                                    )
+                            ),
+                            responses = {
+                                    @ApiResponse(
+                                            responseCode = "200",
+                                            description = "Usuarios encontrados",
+                                            content = @Content(
+                                                    schema = @Schema(implementation = Usuario.class)
+                                            )
+                                    ),
+                                    @ApiResponse(
+                                            responseCode = "404",
+                                            description = "No se encontraron usuarios para los IDs proporcionados"
+                                    )
+                            },
+                            security = { @SecurityRequirement(name = "bearerAuth") }
                     )
             )
     })
     public RouterFunction<ServerResponse> routerFunction(Handler handler) {
         return route(POST(usuariosPath.getUsuarios()), usuarioHandler::listenSaveUsuario)
-                .andRoute(GET(usuariosPath.getByDocumento()), usuarioHandler::getUsuario);
-
+                .andRoute(GET(usuariosPath.getByDocumento()), usuarioHandler::getUsuario)
+                .andRoute(POST(usuariosPath.getListUsuariosByIds()), usuarioHandler::findByIds);
     }
 }
+

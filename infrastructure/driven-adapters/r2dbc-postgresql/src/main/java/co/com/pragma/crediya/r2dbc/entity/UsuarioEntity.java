@@ -1,7 +1,5 @@
-package co.com.pragma.crediya.r2dbc.Entity;
+package co.com.pragma.crediya.r2dbc.entity;
 
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
 import lombok.*;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.relational.core.mapping.Column;
@@ -19,7 +17,6 @@ public class UsuarioEntity {
 
     @Id
     @Column("id_usuario")
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long idUsuario;
     private String nombres;
     private String apellidos;

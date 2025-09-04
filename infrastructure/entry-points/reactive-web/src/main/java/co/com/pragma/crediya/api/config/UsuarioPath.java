@@ -11,4 +11,5 @@ public class UsuarioPath {
     private String usuarios;
     private String usuariosById;
     private String byDocumento = "/api/v1/usuario/{documentoIdentidad}";
+    private String listUsuariosByIds = "/api/v1/usuario/listUsuarios";
 }

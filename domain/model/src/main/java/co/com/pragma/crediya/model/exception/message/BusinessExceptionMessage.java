@@ -26,7 +26,22 @@ public enum BusinessExceptionMessage {
             "El rol especificado no existe."
     ),
     USER_NOT_FOUND("BUS0005","User not found","404",
-            "El usuario con ese numero de identificacion no existe.");
+            "El usuario con ese numero de identificacion no existe."
+    ),
+    INVALID_PASSWORD("BUS0006","Incorrect password","404",
+            "Contraseña incorrecta."),
+    INVALID_TOKEN("BUS0007","Invalid Token","404",
+            "Token invalido."),
+    UNAUTHORIZED("BUS0008","Unauthorized","404",
+            "Usuario inautorizado."),
+    SESSION_ERROR("BUS0009","Sesion Error","404",
+            "Ocurrio un error al actualizar la sesion."),
+    SESSION_EXPIRED("BUS0009","Sesion Expired","404",
+            "Sesion expirada."),
+    USER_SERVICE_ERROR("BUS0010","Service Error","404",
+            "Erro de servicio."),
+    ACCOUNT_LOCKED("BUS0011","Account Locked","404",
+            "Usuario bloqueado.");
 
     private final String code;
     private final String description;

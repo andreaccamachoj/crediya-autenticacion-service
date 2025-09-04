@@ -26,11 +26,17 @@ management:
     health:
       probes:
         enabled: true
+logging:
+  level:
+    co.com.pragma.crediya.r2dbc.TokenSesionReactiveRepositoryAdapter: DEBUG
+    org.springframework.r2dbc.core: WARN
+    io.r2dbc.postgresql: WARN
 cors:
   allowed-origins: "http://localhost:4200,http://localhost:8080"
 routes:
   paths:
     usuarios: "/api/v1/usuarios"
+    login: "/api/v1/login"
 adapters:
   r2dbc:
     host: "localhost"
