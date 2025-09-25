@@ -1,8 +1,8 @@
 server:
-  port: 8080
+  port: "${SERVER_PORT:8080}"
 spring:
   application:
-    name: "autenticacion"
+    name: "${APP_NAME:autenticacion}"
   devtools:
     add-properties: false
   h2:
@@ -28,20 +28,21 @@ management:
         enabled: true
 logging:
   level:
-    co.com.pragma.crediya.r2dbc.TokenSesionReactiveRepositoryAdapter: DEBUG
-    org.springframework.r2dbc.core: WARN
-    io.r2dbc.postgresql: WARN
+    co.com.pragma.crediya.r2dbc.TokenSesionReactiveRepositoryAdapter: "DEBUG"
+    org.springframework.r2dbc.core: "WARN"
+    io.r2dbc.postgresql: "WARN"
 cors:
-  allowed-origins: "http://localhost:4200,http://localhost:8080"
+  allowed-origins: "${ALLOWED_ORIGINS:http://localhost:4200,http://localhost:8080}"
 routes:
   paths:
     usuarios: "/api/v1/usuarios"
     login: "/api/v1/login"
 adapters:
   r2dbc:
-    host: "localhost"
-    port: 5432
-    database: "Autenticacion"
-    schema: "crediya"
-    username: "postgres"
-    password: "root"
+    host: "${SPRING_R2DBC_URL}"
+    port: "${SPRING_R2DBC_PORT}"
+    database: "${SPRING_R2DBC_DB_NAME}"
+    schema: "${SPRING_R2DBC_SCHEMA}"
+    username: "${SPRING_R2DBC_USERNAME}"
+    password: "${SPRING_R2DBC_PASSWORD}"
+

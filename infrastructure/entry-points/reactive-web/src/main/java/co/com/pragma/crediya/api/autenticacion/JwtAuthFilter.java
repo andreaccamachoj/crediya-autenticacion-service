@@ -22,10 +22,12 @@ public class JwtAuthFilter implements WebFilter {
     public Mono<Void> filter(ServerWebExchange ex, WebFilterChain chain) {
         String path = ex.getRequest().getPath().value();
         if (path.startsWith(loginPath.getLogin())
+                || path.startsWith("/actuator")
                 || path.startsWith("/swagger-ui")
                 || path.startsWith("/v3/api-docs")
                 || path.startsWith("/swagger-resources")
-                || path.startsWith("/webjars")) {
+                || path.startsWith("/webjars")
+        ) {
             return chain.filter(ex);
         }
 

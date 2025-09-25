@@ -1,0 +1,29 @@
+version: "3.8"
+
+services:
+  db:
+    image: postgres:15-alpine
+    container_name: autenticacion-crediya-db
+    environment:
+      POSTGRES_DB: autenticacion-crediya
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: root
+    ports:
+      - "5433:5432"
+    volumes:
+      - ./db/init.sql:/docker-entrypoint-initdb.d/init.sql
+
+  autenticacion:
+    build:
+      context: ..
+      dockerfile: deployment/Dockerfile
+    container_name: crediya-autenticacion
+    environment:
+      SPRING_R2DBC_URL: db
+      SPRING_R2DBC_PORT: 5432
+      SPRING_R2DBC_DB_NAME: autenticacion-crediya
+      SPRING_R2DBC_SCHEMA: crediya
+      SPRING_R2DBC_USERNAME: postgres
+      SPRING_R2DBC_PASSWORD: root
+    ports:
+      - "8080:8080"

@@ -54,12 +54,16 @@ public class RouterRest {
                                                             summary = "Ejemplo mínimo",
                                                             value = """
                                 {
-                                  "nombres": "Ana",
-                                  "apellidos": "García",
-                                  "email": "ana@example.com",
-                                  "salarioBase": 4500000,
-                                  "idRol": 2,
-                                  "documentoIdentidad": "1020304050"
+                                   "nombres": "Andrés",
+                                   "apellidos": "Ramírez",
+                                   "correoElectronico": "andres.ramirez@example.com",
+                                   "documentoIdentidad": "1012345678",
+                                   "fechaNacimiento": "1987-09-08",
+                                   "telefono": "+57 3159876543",
+                                   "idRol": 3,
+                                   "direccion": "Avenida 30 #12-40, Barranquilla",
+                                   "salarioBase": 4200000.00,
+                                   "clave": "qwerty"
                                 }"""
                                                     )
                                             }
@@ -134,7 +138,7 @@ public class RouterRest {
                     )
             ),
             @RouterOperation(
-                    path = "/api/v1/usuarios/list-by-ids",
+                    path = "/api/v1/usuario/listUsuarios",
                     produces = MediaType.APPLICATION_JSON_VALUE,
                     method = org.springframework.web.bind.annotation.RequestMethod.POST,
                     beanClass = Handler.class,

@@ -26,3 +26,5 @@ include ':reactive-web'
 project(':reactive-web').projectDir = file('./infrastructure/entry-points/reactive-web')
 include ':autenticacion'
 project(':autenticacion').projectDir = file('./infrastructure/helpers/autenticacion')
+include ':metrics'
+project(':metrics').projectDir = file('./infrastructure/helpers/metrics')
